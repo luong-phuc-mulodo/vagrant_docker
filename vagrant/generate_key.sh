@@ -8,9 +8,9 @@ keytool -genkey -alias tomcat \
 -keystore keystore.p12 -validity 3650 << EOF
 123456
 123456
-devel
-devel
-Hamee
+vagrant
+vagrant
+Company
 Tokyo
 
 
