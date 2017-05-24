@@ -1,0 +1,45 @@
+version: '2'
+services:
+  app_php:
+    container_name: "app_php"
+    image: php:5.6-fpm
+    volumes:
+      - ./:/docker
+    networks:
+      - front
+      - back
+    links:
+      - db:db
+
+  app_java:
+    container_name: "app_java"
+    image: java:8
+    volumes:
+      - ./:/docker
+    networks:
+      - front
+      - back
+    links:
+      - db:db
+      
+  db:
+    container_name: "db"
+    image: mysql:5.6
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./:/docker
+    networks:
+      - back
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_USER=devel
+      - MYSQL_PASSWORD=devel
+      - MYSQL_DATABASE=app
+      - TZ=Asia/Tokyo
+
+networks:
+  front:
+    driver: bridge
+  back:
+    driver: bridge

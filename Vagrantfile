@@ -12,7 +12,10 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "centos65_64bit"
+  # config.vm.box = "centos65_64bit"
+
+  # boxes at http://www.vagrantbox.es/
+  config.vm.box = "centos/7"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -22,7 +25,7 @@ Vagrant.configure(2) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", guest: 3306, host_ip: "127.0.0.1", host: 3306
+  # config.vm.network "forwarded_port", guest: 8443, host_ip: "127.0.0.1", host: 8443
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -61,10 +64,24 @@ Vagrant.configure(2) do |config|
   ##################################
   # Inline shell setup
   ##################################
+  config.vm.provision "shell", inline: <<-SHELL
+
+echo 'UPDATE YUM'
+timedatectl set-timezone Asia/Tokyo
+yum update -y
+yum upgrade -y
+yum install -y wget
+
+echo 'SETUP TIMEZONE'
+cp /usr/share/zoneinfo/Japan /etc/localtime
+sh -c "echo 'ZONE=\"Asia/Tokyo\"' > /etc/sysconfig/clock"
+yum install -y ntpdate.x86_64
+ntpdate ntp.nict.jp
+  SHELL
   #config.vm.provision "shell", inline: <<-SHELL
     #bash command line
   #SHELL
-  config.vm.provision "shell", path: './vagrant/install.sh'
-  config.vm.provision "docker", images: ["mysql:5.6"]
-  config.vm.provision "shell", path: './vagrant/docker.sh'
+  #config.vm.provision "shell", path: './vagrant/install.sh'
+  config.vm.provision "docker", images: ["mysql:5.6","php:5.6-fpm","java:8"]
+  config.vm.provision "docker_compose"
 end

@@ -1,10 +1,10 @@
 # vagrant_docker
 
-Example using docker (version 1.7.1) as provision of vagrant 
+Example using docker (version 1.7.1) as provision of vagrant
 
 ## Requirement
 
-### Install Vagrant : https://www.vagrantup.com/downloads.html  
+### Install Vagrant : https://www.vagrantup.com/downloads.html
 ### Install VirtualBox : https://www.virtualbox.org/wiki/Downloads
 - VirtualBox 5.1.20 platform packages
 - VirtualBox 5.1.20 Oracle VM VirtualBox Extension Pack
@@ -18,5 +18,6 @@ Example using docker (version 1.7.1) as provision of vagrant
 ## Run
 
 ```
+vagrant plugin install vagrant-docker-compose
 vagrant up
 ```
