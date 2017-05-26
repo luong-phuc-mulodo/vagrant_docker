@@ -4,7 +4,7 @@ services:
     container_name: "app_php"
     image: php:5.6-fpm
     volumes:
-      - ./:/docker
+      - ./:/var/www/html
     networks:
       - front
       - back
@@ -21,7 +21,7 @@ services:
       - back
     links:
       - db:db
-      
+
   db:
     container_name: "db"
     image: mysql:5.6
@@ -38,6 +38,22 @@ services:
       - MYSQL_DATABASE=app
       - TZ=Asia/Tokyo
 
+  server:
+    container_name: "server"
+    image: nginx:1.13.0
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - front
+    volumes_from:
+      - app_php
+    volumes:
+      - ./docker/nginx/app_php.conf:/etc/nginx/conf.d/app_php.conf
+    links:
+      - app_php:app_php
+      - app_java:app_java
+      
 networks:
   front:
     driver: bridge

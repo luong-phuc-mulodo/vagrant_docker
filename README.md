@@ -20,4 +20,7 @@ Example using docker (version 1.7.1) as provision of vagrant
 ```
 vagrant plugin install vagrant-docker-compose
 vagrant up
+echo "127.0.0.1 app_php.local"
 ```
+
+open http://app_php.local
